@@ -2,4 +2,6 @@
   * Vite
   * React
   * Back-End (Supabase)
+  * React hot toast
+    
  
