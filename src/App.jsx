@@ -1,40 +1,30 @@
-import styled from "styled-components";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Bookings from "./pages/Bookings";
+import Cabins from "./pages/Cabins";
+import Users from "./pages/Users";
+import Settings from "./pages/Settings";
+import Account from "./pages/Account";
+import Login from "./pages/Login";
+import PageNotFound from "./pages/PageNotFound";
 import GlobalStyles from "./styles/GlobalStyles";
-import Button from "./ui/Button";
-import Input from "./ui/Input";
-import Heading from "./ui/Heading";
-import Row from "./ui/Row";
-
-const H1 = styled.h1`
-  font-size: 30px;
-  font-weight: bold;
-  background-color: #c6e2fa;
-  text-align: center;
-`;
-
 function App() {
   return (
     <>
       <GlobalStyles />
-      <div>
-        <Row type="horizontal">
-          <Heading as="h1">The Wild Oasis</Heading>
-          <div>
-            <Heading as="h2">Check in Check Out</Heading>
-            <Button variations="primary" sizes="small">
-              Check In
-            </Button>
-            <Button>Check Out</Button>
-          </div>
-        </Row>
-        <Row type="vertical">
-          <Heading as="h3">Form</Heading>
-          <div>
-            <Input type="number" placeholder="Number on guests.." />
-            <Input type="number" placeholder="Number on guests.." />
-          </div>
-        </Row>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Navigate replace to="dashboard" />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="bookings" element={<Bookings />} />
+          <Route path="cabins" element={<Cabins />} />
+          <Route path="users" element={<Users />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="account" element={<Account />} />
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
