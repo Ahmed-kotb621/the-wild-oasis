@@ -1,5 +1,6 @@
 import supabase, { supabaseUrl } from "./supabase";
-
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqYXBreXBydXBkZWF1eXlteHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDYwMTAzOTYsImV4cCI6MjAyMTU4NjM5Nn0.Ie-eqWAa0ICtV1d0kBc2cb4uJHGXWGhFcBIEAct8yrc";
 export async function getCabins() {
   const { data, error } = await supabase.from("cabins").select("*");
   if (error) {
@@ -51,3 +52,21 @@ export async function createCabin(newCabin) {
   }
   return data;
 }
+
+// export async function getAllls() {
+//   const res = await fetch(
+//     "https://bjapkyprupdeauyymxsa.supabase.co/rest/v1/cabins?select=*",
+//     {
+//       method: "GET",
+//       headers: {
+//         apikey: supabaseKey,
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   );
+//   if (!res.ok) {
+//     throw new Error("Error in fetching cabins data");
+//   }
+//   const data = await res.json();
+//   return data;
+// }

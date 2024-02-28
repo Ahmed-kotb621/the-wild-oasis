@@ -6,6 +6,9 @@ const StyledSidebar = styled.aside`
   padding: 3.2rem 2.6rem;
   grid-row: 1/-1;
   border-right: 1px solid var(--color-grey-100);
+  display: flex;
+  flex-direction: column;
+  gap: 3.6rem;
 `;
 function Sidebar() {
   return (
