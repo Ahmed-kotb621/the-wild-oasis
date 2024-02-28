@@ -3,36 +3,26 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import styled from "styled-components";
 
-const Main = styled.main`
-  background-color: var(--color-grey-50);
-  padding: 3rem 2.5rem;
-`;
-
-const StyledAppLayout = styled.div`
+const StyledAppLaytout = styled.div`
+  height: 100vh;
   display: grid;
   grid-template-columns: 26rem 1fr;
   grid-template-rows: auto 1fr;
-  height: 100vh;
 `;
 
-const Container = styled.div`
-  max-width: 120rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 3.2rem;
+const Main = styled.main`
+  background-color: var(--color-grey-50);
+  padding: 3.2rem 2.6rem;
 `;
 function AppLayout() {
   return (
-    <StyledAppLayout>
+    <StyledAppLaytout>
       <Header />
       <Sidebar />
       <Main>
-        <Container>
-          <Outlet />
-        </Container>
+        <Outlet />
       </Main>
-    </StyledAppLayout>
+    </StyledAppLaytout>
   );
 }
 
