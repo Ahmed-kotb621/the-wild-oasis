@@ -1,6 +1,7 @@
 import supabase, { supabaseUrl } from "./supabase";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqYXBreXBydXBkZWF1eXlteHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDYwMTAzOTYsImV4cCI6MjAyMTU4NjM5Nn0.Ie-eqWAa0ICtV1d0kBc2cb4uJHGXWGhFcBIEAct8yrc";
+
 export async function getCabins() {
   const { data, error } = await supabase.from("cabins").select("*");
   if (error) {
@@ -22,7 +23,6 @@ export async function deleteCabin(id) {
 }
 
 export async function createEditCabin(newCabin, id) {
-  console.log(newCabin);
   const hasImagePath = newCabin?.image?.startsWith?.(supabaseUrl);
   const imageName = hasImagePath
     ? newCabin.image
