@@ -45,7 +45,7 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function CreateCabinForm({ cabintoEdit = {} }) {
+function CreateCabinForm({ cabintoEdit = {}, onCloseModel }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const { id: editID, ...editValues } = cabintoEdit;
@@ -67,13 +67,21 @@ function CreateCabinForm({ cabintoEdit = {} }) {
     if (ID)
       editCabin(
         { newCabinData: { ...data, image }, id: editID },
-        { onSuccess: () => reset() }
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModel?.();
+          },
+        }
       );
     else
       createCabin(
         { ...data, image: image },
         {
-          onSuccess: () => reset(),
+          onSuccess: () => {
+            reset();
+            onCloseModel?.();
+          },
         }
       );
   }
@@ -81,7 +89,10 @@ function CreateCabinForm({ cabintoEdit = {} }) {
     // console.log(error);
   }
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModel ? "modal" : "regular"}
+    >
       <FormRow>
         <Label htmlFor="name">Cabin name</Label>
         <Input
@@ -166,7 +177,11 @@ function CreateCabinForm({ cabintoEdit = {} }) {
       </FormRow>
 
       <FormRow>
-        <Button variations="secondary" type="reset">
+        <Button
+          variations="secondary"
+          type="reset"
+          onClick={() => onCloseModel?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>{ID ? "Edit Cabin" : "Add cabin"}</Button>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { formatCurrency } from "../../utils/helpers";
+import Modal from "../../ui/Modal";
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -73,7 +74,11 @@ function CabinRow({ cabin }) {
           </button>
         </div>
       </TableRow>
-      {showFrom && <CreateCabinForm cabintoEdit={cabin} />}
+      {showFrom && (
+        <Modal>
+          <CreateCabinForm cabintoEdit={cabin} />
+        </Modal>
+      )}
     </>
   );
 }
