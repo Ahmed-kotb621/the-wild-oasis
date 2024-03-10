@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { formatCurrency } from "../../utils/helpers";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
-
+import { HiPencil, HiTrash } from "react-icons/hi2";
 const Img = styled.img`
   display: block;
   width: 6.4rem;
@@ -59,14 +58,18 @@ function CabinRow({ cabin }) {
       <div>
         <Modal>
           <Modal.Open opens="edit">
-            <button>edit</button>
+            <button>
+              <HiPencil />
+            </button>
           </Modal.Open>
           <Modal.Window name="edit">
             <CreateCabinForm cabintoEdit={cabin} />
           </Modal.Window>
 
           <Modal.Open opens="delete">
-            <button>Delete</button>
+            <button>
+              <HiTrash />
+            </button>
           </Modal.Open>
           <Modal.Window name="delete">
             <ConfirmDelete

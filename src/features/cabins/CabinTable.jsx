@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
 import { getCabins } from "../../services/apiCabins";
 import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
@@ -14,6 +13,7 @@ function CabinTable() {
     queryFn: getCabins,
   });
 
+  // filter by discount
   const value = searchParams.get("discount") || "all";
   let fileredValue;
   if (value === "all") fileredValue = cabins;
@@ -23,6 +23,18 @@ function CabinTable() {
 
   if (value === "with-discount")
     fileredValue = cabins.filter((el) => el.discount > 0);
+
+  // Sort cabins
+
+  const sortBy = searchParams.get("sortby") || "startDate-asc";
+
+  const [field, direction] = sortBy.split("-");
+
+  const modifier = direction === "asc" ? 1 : -1;
+
+  const sortedCabins = fileredValue
+    ? fileredValue.sort((a, b) => (a[field] - b[field]) * modifier)
+    : [];
 
   if (isLoading) return <Spinner />;
   return (
@@ -36,7 +48,7 @@ function CabinTable() {
         <div></div>
       </Table.Header>
 
-      {fileredValue.map((cabin) => (
+      {sortedCabins.map((cabin) => (
         <CabinRow cabin={cabin} key={cabin.id} />
       ))}
     </Table>
