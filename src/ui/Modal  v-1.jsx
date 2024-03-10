@@ -1,9 +1,6 @@
 import styled from "styled-components";
 import { IoCloseOutline } from "react-icons/io5";
 import { createPortal } from "react-dom";
-import { cloneElement, createContext, useContext, useState } from "react";
-import { useClickOutside } from "../features/cabins/useClickOutside";
-
 const StyledModal = styled.div`
   position: fixed;
   top: 50%;
@@ -53,47 +50,18 @@ const Button = styled.button`
   }
 `;
 
-const ModalContext = createContext();
-
-function Modal({ children }) {
-  const [openName, setOpenName] = useState("");
-
-  const open = setOpenName;
-  const close = () => setOpenName("");
-
-  return (
-    <ModalContext.Provider value={{ open, openName, close }}>
-      {children}
-    </ModalContext.Provider>
-  );
-}
-
-function Open({ children, opens }) {
-  const { open } = useContext(ModalContext);
-  return cloneElement(children, { onClick: () => open(opens) });
-}
-
-function Window({ children, name, onCloseModel }) {
-  const { openName, close } = useContext(ModalContext);
-
-  const ref = useClickOutside(close);
-
-  if (name !== openName) return null;
-
+function Modal({ children, onClose }) {
   return createPortal(
     <Overlay>
-      <StyledModal ref={ref}>
-        <Button onClick={close}>
+      <StyledModal>
+        <Button onClick={onClose}>
           <IoCloseOutline />
         </Button>
-        {cloneElement(children, { onCloseModel: close })}
+        {children}
       </StyledModal>
     </Overlay>,
     document.body
   );
 }
-
-Modal.Open = Open;
-Modal.Window = Window;
 
 export default Modal;

@@ -4,17 +4,8 @@ import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { formatCurrency } from "../../utils/helpers";
 import Modal from "../../ui/Modal";
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Table from "../../ui/Table";
 
 const Img = styled.img`
   display: block;
@@ -44,7 +35,6 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const [showFrom, setShowFrom] = useState(false);
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const {
     id: cabinId,
@@ -56,7 +46,45 @@ function CabinRow({ cabin }) {
   } = cabin;
 
   return (
-    <>
+    <Table.Row>
+      <Img src={image} />
+      <Cabin>{name}</Cabin>
+      <div>Fits up to {maxCapacity} guests</div>
+      <Price>{formatCurrency(regularPrice)}</Price>
+      {discount ? (
+        <Discount>{formatCurrency(discount)}</Discount>
+      ) : (
+        <span>&minus;</span>
+      )}
+      <div>
+        <Modal>
+          <Modal.Open opens="edit">
+            <button>edit</button>
+          </Modal.Open>
+          <Modal.Window name="edit">
+            <CreateCabinForm cabintoEdit={cabin} />
+          </Modal.Window>
+
+          <Modal.Open opens="delete">
+            <button>Delete</button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="cabin"
+              disabled={isDeleting}
+              onConfirm={() => deleteCabin(cabinId)}
+            />
+          </Modal.Window>
+        </Modal>
+      </div>
+    </Table.Row>
+  );
+}
+
+export default CabinRow;
+
+{
+  /* <>
       <TableRow role="row">
         <Img src={image} />
         <Cabin>{name}</Cabin>
@@ -74,13 +102,6 @@ function CabinRow({ cabin }) {
           </button>
         </div>
       </TableRow>
-      {showFrom && (
-        <Modal>
-          <CreateCabinForm cabintoEdit={cabin} />
-        </Modal>
-      )}
-    </>
-  );
+      {showFrom && <CreateCabinForm cabintoEdit={cabin} />}
+    </> */
 }
-
-export default CabinRow;
