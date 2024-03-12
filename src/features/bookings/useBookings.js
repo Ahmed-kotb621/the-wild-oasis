@@ -24,7 +24,7 @@ export function useBookings() {
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
   const {
-    data: bookings,
+    data: { data: bookings, count } = {},
     isLoading,
     error,
   } = useQuery({
@@ -32,5 +32,5 @@ export function useBookings() {
     queryFn: () => getBookings({ filter, sortBy, page }),
   });
 
-  return { bookings, isLoading, error };
+  return { bookings, isLoading, error, count };
 }

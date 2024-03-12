@@ -6,7 +6,8 @@ export async function getBookings({ filter, sortBy, page }) {
   let query = supabase
     .from("bookings")
     .select(
-      "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(fullName,email)"
+      "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(fullName,email)",
+      { count: "exact" }
     );
 
   // filter
@@ -24,14 +25,14 @@ export async function getBookings({ filter, sortBy, page }) {
     query = query.range(from, to);
   }
 
-  let { data, error } = await query;
+  let { data, error, count } = await query;
 
   if (error) {
     console.log(error);
     throw new Error("Could not Loading Bookings");
   }
 
-  return data;
+  return { data, count };
 }
 export async function getBooking(id) {
   const { data, error } = await supabase
