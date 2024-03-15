@@ -8,8 +8,8 @@ import SpinnerMini from "../../ui/SpinnerMini";
 
 function LoginForm() {
   const { login, isPending } = useLogin();
-  const [email, setEmail] = useState("ahmed@example.com");
-  const [password, setPassword] = useState("123123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();

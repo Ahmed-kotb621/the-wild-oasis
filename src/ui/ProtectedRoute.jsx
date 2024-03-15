@@ -11,6 +11,7 @@ const StyledPage = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   // 1. load user data

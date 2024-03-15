@@ -3,13 +3,12 @@ import { signup as signupApi } from "../../services/apiAuth";
 import toast from "react-hot-toast";
 
 export function useSignup() {
-  const { mutate: signup, isLoading } = useMutation({
+  const { mutate: signup, isPending } = useMutation({
     mutationFn: signupApi,
-    onSuccess: (user) => {
-      console.log(user);
+    onSuccess: () => {
       toast.success("User Account Added successfully!");
     },
   });
 
-  return { signup, isLoading };
+  return { signup, isPending };
 }

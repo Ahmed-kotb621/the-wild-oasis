@@ -6,10 +6,10 @@ import Input from "../../ui/Input";
 import { useSignup } from "./useSignup";
 
 function SignupForm() {
-  const { signup, isLoading } = useSignup();
+  const { signup, isPending } = useSignup();
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
-  console.log(errors);
+
   function onSubmit({ fullName, email, password }) {
     signup(
       { fullName, email, password },
@@ -18,12 +18,14 @@ function SignupForm() {
       }
     );
   }
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow label="Full name" error={errors?.fullName?.message}>
         <Input
           type="text"
           id="fullName"
+          disabled={isPending}
           {...register("fullName", {
             required: "this field is required",
           })}
@@ -34,6 +36,7 @@ function SignupForm() {
         <Input
           type="email"
           id="email"
+          disabled={isPending}
           {...register("email", {
             required: "this field is required",
             pattern: {
@@ -51,6 +54,7 @@ function SignupForm() {
         <Input
           type="password"
           id="password"
+          disabled={isPending}
           {...register("password", {
             required: "this field is required",
             minLength: {
@@ -65,6 +69,7 @@ function SignupForm() {
         <Input
           type="password"
           id="passwordConfirm"
+          disabled={isPending}
           {...register("passwordConfirm", {
             required: "this field is required",
             validate: (value) => {
@@ -76,10 +81,10 @@ function SignupForm() {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" disabled={isPending}>
           Cancel
         </Button>
-        <Button>Create new user</Button>
+        <Button disabled={isPending}>Create new user</Button>
       </FormRow>
     </Form>
   );

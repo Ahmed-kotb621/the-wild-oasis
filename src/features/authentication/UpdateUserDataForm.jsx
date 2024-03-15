@@ -7,8 +7,10 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import { useUser } from "./useUser";
+import { useUpdate } from "./useUpdate";
 
 function UpdateUserDataForm() {
+  const { update, isPending } = useUpdate();
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const {
     user: {
@@ -22,6 +24,16 @@ function UpdateUserDataForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!fullName) return;
+    update(
+      { fullName, avatar },
+      {
+        onSuccess: () => {
+          setAvatar("");
+          e.target.reset();
+        },
+      }
+    );
   }
 
   return (
@@ -33,6 +45,7 @@ function UpdateUserDataForm() {
         <Input
           type="text"
           value={fullName}
+          disabled={isPending}
           onChange={(e) => setFullName(e.target.value)}
           id="fullName"
         />
@@ -41,6 +54,8 @@ function UpdateUserDataForm() {
         <FileInput
           id="avatar"
           accept="image/*"
+          type="file"
+          disabled={isPending}
           onChange={(e) => setAvatar(e.target.files[0])}
         />
       </FormRow>
