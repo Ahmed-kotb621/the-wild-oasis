@@ -1,4 +1,14 @@
 import styled from "styled-components";
+import Heading from "../../ui/Heading";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const ChartBox = styled.div`
   /* Box */
@@ -21,42 +31,42 @@ const ChartBox = styled.div`
 const startDataLight = [
   {
     duration: "1 night",
-    value: 0,
+    value: 3,
     color: "#ef4444",
   },
   {
     duration: "2 nights",
-    value: 0,
+    value: 2,
     color: "#f97316",
   },
   {
     duration: "3 nights",
-    value: 0,
+    value: 5,
     color: "#eab308",
   },
   {
     duration: "4-5 nights",
-    value: 0,
+    value: 4,
     color: "#84cc16",
   },
   {
     duration: "6-7 nights",
-    value: 0,
+    value: 3,
     color: "#22c55e",
   },
   {
     duration: "8-14 nights",
-    value: 0,
+    value: 2,
     color: "#14b8a6",
   },
   {
     duration: "15-21 nights",
-    value: 0,
+    value: 8,
     color: "#3b82f6",
   },
   {
     duration: "21+ nights",
-    value: 0,
+    value: 7,
     color: "#a855f7",
   },
 ];
@@ -130,3 +140,43 @@ function prepareData(startData, stays) {
 
   return data;
 }
+
+function DurationChart({ confirmedStays }) {
+  const { isDarkMode } = useDarkMode();
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, confirmedStays);
+  return (
+    <ChartBox>
+      <Heading as="h2">Stays duration summary</Heading>
+      <ResponsiveContainer>
+        <PieChart>
+          <Pie
+            data={data}
+            nameKey="duration"
+            dataKey="value"
+            cx="40%"
+            cy="50%"
+            innerRadius={80}
+            outerRadius={110}
+            paddingAngle={3}
+          >
+            {data.map((el) => (
+              <Cell fill={el.color} stroke={el.color} key={el.duration} />
+            ))}
+          </Pie>
+          <Legend
+            verticalAlign="middle"
+            layout="vertical"
+            align="right"
+            width="30%"
+            iconType="circle"
+            iconSize={15}
+          />
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </ChartBox>
+  );
+}
+
+export default DurationChart;
