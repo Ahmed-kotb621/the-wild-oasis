@@ -6,6 +6,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import { HiPencil, HiTrash } from "react-icons/hi2";
+import ButtonIcon from "../../ui/ButtonIcon";
 const Img = styled.img`
   display: block;
   width: 6.4rem;
@@ -58,18 +59,18 @@ function CabinRow({ cabin }) {
       <div>
         <Modal>
           <Modal.Open opens="edit">
-            <button>
+            <ButtonIcon>
               <HiPencil />
-            </button>
+            </ButtonIcon>
           </Modal.Open>
           <Modal.Window name="edit">
             <CreateCabinForm cabintoEdit={cabin} />
           </Modal.Window>
 
           <Modal.Open opens="delete">
-            <button>
+            <ButtonIcon>
               <HiTrash />
-            </button>
+            </ButtonIcon>
           </Modal.Open>
           <Modal.Window name="delete">
             <ConfirmDelete
@@ -85,26 +86,3 @@ function CabinRow({ cabin }) {
 }
 
 export default CabinRow;
-
-{
-  /* <>
-      <TableRow role="row">
-        <Img src={image} />
-        <Cabin>{name}</Cabin>
-        <div>Fits up to {maxCapacity} guests</div>
-        <Price>{formatCurrency(regularPrice)}</Price>
-        {discount ? (
-          <Discount>{formatCurrency(discount)}</Discount>
-        ) : (
-          <span>&minus;</span>
-        )}
-        <div>
-          <button onClick={() => setShowFrom((show) => !show)}>Edit</button>
-          <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
-            Delete
-          </button>
-        </div>
-      </TableRow>
-      {showFrom && <CreateCabinForm cabintoEdit={cabin} />}
-    </> */
-}
